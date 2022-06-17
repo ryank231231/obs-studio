@@ -23,6 +23,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/sysctl.h>
+#include <sys/utsname.h>
 
 #include <Carbon/Carbon.h>
 #include <IOKit/hid/IOHIDDevice.h>
@@ -123,6 +124,12 @@ static void log_processor_cores(void)
 	     os_get_physical_cores(), os_get_logical_cores());
 }
 
+static void log_emulation_status(void)
+{
+	blog(LOG_INFO, "Rosetta translation used: %s",
+	     os_get_emulation_status() ? "true" : "false");
+}
+
 static void log_available_memory(void)
 {
 	size_t size;
@@ -141,7 +148,7 @@ static bool using_10_15_or_above = true;
 static void log_os(void)
 {
 	NSProcessInfo *pi = [NSProcessInfo processInfo];
-	blog(LOG_INFO, "OS Name: Mac OS X");
+	blog(LOG_INFO, "OS Name: macOS");
 	blog(LOG_INFO, "OS Version: %s",
 	     [[pi operatingSystemVersionString] UTF8String]);
 
@@ -167,6 +174,7 @@ void log_system_info(void)
 	log_processor_cores();
 	log_available_memory();
 	log_os();
+	log_emulation_status();
 	log_kernel_version();
 }
 

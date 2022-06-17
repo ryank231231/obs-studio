@@ -2172,12 +2172,6 @@ static int run_program(fstream &logFile, int argc, char *argv[])
 			created_log = true;
 		}
 
-#ifdef __APPLE__
-		bool rosettaTranslated = os_get_emulation_status();
-		blog(LOG_INFO, "Rosetta translation used: %s",
-		     rosettaTranslated ? "true" : "false");
-#endif
-
 #ifdef _WIN32
 		if (IsRunningOnWine()) {
 			QMessageBox mb(QMessageBox::Question,
